@@ -35,7 +35,7 @@ MAsim.uneqvar(ng = 10000, n = 3, n1 = n, n2 = n, p0 = 0.9, d01 = 10, s2_01 = 1, 
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ 
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ ~Make other sections like Warning with {....} ~
 }
 \seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{

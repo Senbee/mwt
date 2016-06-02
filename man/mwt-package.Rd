@@ -29,8 +29,7 @@
 \references{
   Demissie M, et al: Effects of unequal variance in microarray data analysis 
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R ~~
-~~ documentation directory ~~
+
 \keyword{ package }
 \seealso{
   ~~ Optional links to other man pages, e.g. ~~
