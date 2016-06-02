@@ -1,0 +1,32 @@
+***********
+*         *
+* CHANGE  *
+*         *
+***********
+
+* 0.0.3
+- 31Jan08: Added attribute "p0" to object returnd by pval2FDR, to hold pi0 estimate
+* 0.1.0
+- 24Apr08: Added method for more than 2 groups (ANOVA)
+- 24Apr08: Added method for MArrayLM object to be used with LIMMA
+* 0.2.1
+- 29Jul08: better naming of output from stat3
+* 0.2.2
+- 27Jan09: new function contrasts.mwt for fitting contrasts
+           mwt2 output allows use of contrasts.mwt
+* 0.2.3
+- 23 Feb 2009: allows for missing data (NA). This derives from some experience with Agilent 
+     	       miRNA data where you can have negative values, transformed in NA because of log.
+* 0.2.4
+- 24 Feb 2009: stat2 now uses levene() to get fFDR as in stat3
+-              mwt is only for a two-groups problem. Now mwt deals with Ngr >= 2, 
+	       but need to use contrasts.fit
+               If Ngr = 2, mwt and mwt2 (after using contrasts.fit) deliver the same results.
+
+* 0.2.5 YP
+- 16 Oct 2009: 	est.hyper gives d0.est=100 (practical max value) 
+		if uniroot fails because f2 never changes sign
+* 0.2.6 SC
+- 16 Oct 2009:  added some more values in output (s2 prior, d0 prior, Levene statistcs & FDR)
+     	 	Updated documentation (TODO: mwt2. Shall mwt and mwt2 be merged?)
+
