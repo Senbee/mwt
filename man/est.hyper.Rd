@@ -28,7 +28,7 @@ est.hyper(z, D, d12)
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ 
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ ~Make other sections like Warning with Warning{....} ~
 }
 \seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{

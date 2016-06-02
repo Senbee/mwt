@@ -3,10 +3,10 @@ Type: Package
 Title: Moderated Welch Test
 Version: 0.2.7
 Date: 2015-04-14
-Author: Yudi Pawitan
-Depends: Biobase, limma
+Author: Yudi Pawitan <Yudi.Pawitan@ki.se>
+Depends: limma
 Suggests: multcomp
-Maintainer: Stefano Calza <stefano.calza@biostatistics.it>
+Maintainer: Stefano Calza <stefano.calza@unibs.it>
 Description: Computes FDR based on a moderated version of the Welch test. It's particularly suited for small samples comparisons exprecially with unequal variances
 License: GPL2
-Packaged: 2015-04-14 07:44:08 UTC; yudpaw
+Packaged: 
