@@ -1,10 +1,10 @@
 Package: mwt
 Type: Package
 Title: Moderated Welch Test
-Version: 0.2.7
-Date: 2015-04-14
+Version: 0.2.8
+Date: 2016-06-07
 Author: Yudi Pawitan <Yudi.Pawitan@ki.se>
-Depends: Biobase,limma
+Depends: Biobase,limma,OCplus
 Suggests: multcomp
 Maintainer: Stefano Calza <stefano.calza@unibs.it>
 Description: Computes FDR based on a moderated version of the Welch test. It's particularly suited for small samples comparisons exprecially with unequal variances

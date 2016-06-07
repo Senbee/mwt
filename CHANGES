@@ -29,4 +29,5 @@
 * 0.2.6 SC
 - 16 Oct 2009:  added some more values in output (s2 prior, d0 prior, Levene statistcs & FDR)
      	 	Updated documentation (TODO: mwt2. Shall mwt and mwt2 be merged?)
-
+* 0.2.8 SC
+- 07 June 2016: Added localfdr computation

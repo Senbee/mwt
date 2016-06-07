@@ -66,30 +66,31 @@ pval2FDR <- function (pval, lim = 0.7)
 {
   
     
-  n1 = length(pval)
-  ok.id <- 1:n1
-  
-  if(any(is.na(pval)))
+    n1 = length(pval)
+    ok.id <- 1:n1
+    
+    if(any(is.na(pval)))
     {
-      ok.id <- which(!is.na(pval))
-      pval <- na.omit(pval)
+        ok.id <- which(!is.na(pval))
+        pval <- na.omit(pval)
     }
-
-  n = length(pval)
-  Fp = rank(pval)/length(pval)
-  p0 = sum(pval > lim)/((1 - lim) * n)
-  p0 = min(p0, 1)
-  FDRp = p0 * pmin(pval/Fp, 1)
-  ord = order(pval)
-  FDR.o = FDRp[ord]
-  b = rev(cummin(rev(FDR.o)))
-  FDR = rep(0, n)
-  FDR[ord] = b
-
-  out.FDR <- rep(NA, n1)
-  out.FDR[ok.id] <- FDR
-  
-  return(out.FDR)
+    
+    n = length(pval)
+    Fp = rank(pval)/length(pval)
+    p0 = sum(pval > lim)/((1 - lim) * n)
+    p0 = min(p0, 1)
+    FDRp = p0 * pmin(pval/Fp, 1)
+    ord = order(pval)
+    FDR.o = FDRp[ord]
+    b = rev(cummin(rev(FDR.o)))
+    FDR = rep(0, n)
+    FDR[ord] = b
+    
+    out.FDR <- rep(NA, n1)
+    out.FDR[ok.id] <- FDR
+    
+    attr(out.FDR,"p0") <- p0
+    return(out.FDR)
 }
 
 
@@ -101,44 +102,46 @@ pval2FDR <- function (pval, lim = 0.7)
 
 
 MAsim.uneqvar <- function (ng = 10000, n = 3, n1 = n, n2 = n, p0 = 0.9, 
-                           d01 = 10, s2_01 = 1, v0m = 1, v0var=1, p0var=0.7) 
+                           d01 = 10, s2_01 = 1, v0m = 1, v0var=1, p0var=0.7)
 {
-  nn = n1 + n2
-  group = rep(c(0, 1), c(n1, n2))
-  s2 = d01*s2_01/rchisq(ng, df = d01)
-  s2_g1 = s2*exp(rnorm(ng,mean=0,sd= sqrt(v0var)))
-  s2_g2 = s2*exp(rnorm(ng,mean=0,sd= sqrt(v0var)))
-  
-  eqvar = runif(ng)< p0var  # equal variance
-  s2_g1[eqvar] = s2[eqvar]
-  s2_g2[eqvar] = s2[eqvar]
-  s2_g = (n1*s2_g1 + n2*s2_g2)/(n1+n2)   # average variance
-  
-  xdat1 = matrix(rnorm(ng*n1, sd = sqrt(s2_g1)), ncol = n1)
-  
-  ndx = runif(ng) > p0
-  nde = sum(ndx)
-  xmean2 = rep(0, ng)
-  xmean2[ndx] = rnorm(nde, mean = 0, sd = sqrt(v0m * s2_g))
-  xdat2 = matrix(rnorm(ng*n2, sd = sqrt(s2_g2)), ncol = n2) + xmean2
-  
-  xdat = cbind(xdat1, xdat2)
-  colnames(xdat) = as.character(group)
-  
-  des = des.var = rep(FALSE, ng)   # DE status for mean and variance
-  des[ndx] = TRUE
-  des.var[!eqvar] = TRUE
-  attr(xdat, "DE") = des
-  attr(xdat, "DE.var") = des.var
-  
-  xdat
+    
+    ## p0 = proportion on NULL features
+    ## p0var = proportion on NULL variances (for Levene FDR)
+    nn = n1 + n2
+    group = rep(c(0, 1), c(n1, n2))
+    s2 = d01*s2_01/rchisq(ng, df = d01)
+    s2_g1 = s2*exp(rnorm(ng,mean=0,sd= sqrt(v0var)))
+    s2_g2 = s2*exp(rnorm(ng,mean=0,sd= sqrt(v0var)))
+    
+    eqvar = runif(ng)< p0var  # equal variance
+    s2_g1[eqvar] = s2[eqvar]
+    s2_g2[eqvar] = s2[eqvar]
+    s2_g = (n1*s2_g1 + n2*s2_g2)/(n1+n2)   # average variance
+    
+    xdat1 = matrix(rnorm(ng*n1, sd = sqrt(s2_g1)), ncol = n1)
+    
+    ndx = runif(ng) > p0
+    nde = sum(ndx)
+    xmean2 = rep(0, ng)
+    xmean2[ndx] = rnorm(nde, mean = 0, sd = sqrt(v0m * s2_g))
+    xdat2 = matrix(rnorm(ng*n2, sd = sqrt(s2_g2)), ncol = n2) + xmean2
+    
+    xdat = cbind(xdat1, xdat2)
+    colnames(xdat) = as.character(group)
+    
+    des = des.var = rep(FALSE, ng)   # DE status for mean and variance
+    des[ndx] = TRUE
+    des.var[!eqvar] = TRUE
+    attr(xdat, "DE") = des
+    attr(xdat, "DE.var") = des.var
+    
+    xdat
 }
 
-#
-# simulating 3 groups
-#
-# there is a common variance component across the groups
-#
+
+## simulating 3 groups
+## there is a common variance component across the groups
+
 MAsim.var6 <- function (ng = 10000, n = 10, n1 = n, n2 = n, n3=n, p0 = 0.9, 
                         d01 = 4, s2_01 = 4, v0m = 2, v0var=1, p0var=0.9) 
 {
