@@ -9,10 +9,10 @@
   either the standard t-test or its Welch version.
 }
 \usage{
-mwt(xdat, grp, log.it = FALSE,localfdr = TRUE)
+mwt(object, grp, log.it = FALSE,localfdr = TRUE)
 }
 \arguments{
-  \item{xdat}{ Expression data. Either an object of class 'matrix' or 'ExpressionSet'}
+  \item{object}{ Expression data. Either an object of class 'matrix' or 'ExpressionSet'}
   \item{grp}{Numeric or factor. Group indicator variable }
   \item{log.it}{Logical. Take log2 of the data prior to analysis}
   \item{localfdr}{Logical. Shall the function return local FDR (fdr)? Defaults to TRUE}
