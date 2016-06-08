@@ -1,5 +1,5 @@
 setGeneric("mwt",
-           function(object, grp, log.it=FALSE, locfdr = FALSE)
+           function(object, grp, log.it=FALSE, locfdr = TRUE)
            {
              standardGeneric("mwt")
            })
@@ -14,7 +14,7 @@ setGeneric("mwt2",
 
 setMethod("mwt",
     signature(object="ExpressionSet"),
-    function (object, grp, log.it=FALSE, locfdr = FALSE)
+    function (object, grp, log.it=FALSE, locfdr = TRUE)
           {
             if(length(grp) == 1)
               if(!is.character(grp))
@@ -43,7 +43,7 @@ setMethod("mwt",
 
 
 setMethod("mwt",signature(object="matrix"),
-          function(object, grp, log.it=FALSE,locfdr=FALSE)
+          function(object, grp, log.it=FALSE,locfdr=TRUE)
           {
             if(log.it)
               object <- log2(object)
@@ -147,7 +147,7 @@ setMethod("mwt2",
 ## 24 Feb 2009 - Now uses Levene test to get fFDR
 ## 7 June 2016 - Add local local FDR
 
-stat2 <- function(xdat,grp,locfdr=FALSE,na.rm=TRUE)
+stat2 <- function(xdat,grp,locfdr=TRUE,na.rm=TRUE)
 {
     ## basic statistics
     glab = unique(grp)
@@ -191,17 +191,17 @@ stat2 <- function(xdat,grp,locfdr=FALSE,na.rm=TRUE)
     
     ## ....................................... moderated Welch
     se2.com = (ds$d0*ds$s2 + df.w*se2.w)/(ds$d0 + df.w)
-    Wm = (m1-m2)/sqrt(se2.com) ## Welch t
+    Wm.t = (m1-m2)/sqrt(se2.com) ## Welch t
     df.com = ds$d0 + df.w      ## df
     
 
-    Wm.pval = pt(-abs(Wm), df= df.com) * 2
+    Wm.pval = pt(-abs(Wm.t), df= df.com) * 2
     
     ## ................. Compute Global FDR
 
     Wm.FDR = pval2FDR(Wm.pval) ## Global FDR
 
-    p0_mwt = attr(Wm.FDR,"p0")
+    Wm.p0 = attr(Wm.FDR,"p0")
     
     ## ................ Compute local FDR
 
@@ -211,7 +211,7 @@ stat2 <- function(xdat,grp,locfdr=FALSE,na.rm=TRUE)
     {
         nr = 50
 
-        Lf.pval = pt(Wm, df= df.com)
+        Lf.pval = pt(Wm.t, df= df.com)
         Z = qnorm(Lf.pval)
         
         xbreaks = OCplus:::MidBreaks(Z, nr)
@@ -229,13 +229,13 @@ stat2 <- function(xdat,grp,locfdr=FALSE,na.rm=TRUE)
         ## zlim = 1
         ## p0_OC = 1/max(f0fz[abs(xbreaks) < zlim],na.rm=TRUE)
 
-        sfdr = p0_mwt * f0fz
-        fdr = approx(xmids, sfdr, xout = Z, rule = 2)$y
+        fdr = Wm.p0 * f0fz
+        Wm.fdr = approx(xmids, fdr, xout = Z, rule = 2)$y
     }
 
-    return(list(MWT= Wm, coefficients=cbind((m1-m2)),pvalue = Wm.pval,
-                FDR = Wm.FDR, fdr=fdr,
-                df=df.com, s2.wm=se2.com, d0.prior = ds$d0,p0 = p0_mwt,
+    return(list(MWT= Wm.t, coefficients=cbind((m1-m2)),pvalue = Wm.pval,
+                FDR = Wm.FDR, fdr=Wm.fdr,
+                df=df.com, se2.wm=se2.com, d0.prior = ds$d0,p0 = Wm.p0,
                 s2.prior = ds$s2,lev.stat = fStat, lev.FDR=fFDR))
     
 }
