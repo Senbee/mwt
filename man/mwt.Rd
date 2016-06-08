@@ -15,7 +15,7 @@ mwt(xdat, grp, log.it = FALSE,localfdr = FALSE)
   \item{xdat}{ Expression data. Either an object of class 'matrix' or 'ExpressionSet'}
   \item{grp}{Numeric or factor. Group indicator variable }
   \item{log.it}{Logical. Take log2 of the data prior to analysis}
-  \item{localfdr}{Logical. Shall the function return local FDR (fdr)}
+  \item{localfdr}{Logical. Shall the function return local FDR (fdr)? Defaults to TRUE}
  }
 \details{
   The statistic is equal mean difference divided by its standard error,
@@ -28,9 +28,9 @@ A list containing
   \item{MWT}{Moderated Welch statistic}
   \item{pvalue}{Corresponding p-values from MWT}
   \item{FDR}{Estimated global FDR from the pvalues}
-  \item{fdr}{Estimated local FDR from the pvalues. Defaults to NULL}
+  \item{fdr}{Estimated local FDR from the pvalues}
   \item{df}{degrees of freedom of the MWT test (using central t dist)}
-  \item{s2.wm}{Posterior estimate of variance}
+  \item{se2.wm}{Posterior estimate of variance}
   \item{d0.prior}{Estimated d0 parameter}
   \item{s2.prior}{Estimated scale parameter for the standard errors}
   \item{lev.stat}{Levene's test statistic}
