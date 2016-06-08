@@ -1,8 +1,8 @@
 Package: mwt
 Type: Package
 Title: Moderated Welch Test
-Version: 0.2.8
-Date: 2016-06-07
+Version: 0.2.9
+Date: 2016-06-08
 Author: Yudi Pawitan <Yudi.Pawitan@ki.se>
 Depends: Biobase,limma,OCplus
 Suggests: multcomp
