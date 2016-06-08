@@ -9,7 +9,7 @@
   either the standard t-test or its Welch version.
 }
 \usage{
-mwt(xdat, grp, log.it = FALSE,localfdr = FALSE)
+mwt(xdat, grp, log.it = FALSE,localfdr = TRUE)
 }
 \arguments{
   \item{xdat}{ Expression data. Either an object of class 'matrix' or 'ExpressionSet'}
@@ -30,7 +30,7 @@ A list containing
   \item{FDR}{Estimated global FDR from the pvalues}
   \item{fdr}{Estimated local FDR from the pvalues}
   \item{df}{degrees of freedom of the MWT test (using central t dist)}
-  \item{se2.wm}{Posterior estimate of variance}
+  \item{se2.m}{Moderated standard error}
   \item{d0.prior}{Estimated d0 parameter}
   \item{s2.prior}{Estimated scale parameter for the standard errors}
   \item{lev.stat}{Levene's test statistic}
