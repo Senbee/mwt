@@ -9,7 +9,7 @@
   either the standard t-test or its Welch version.
 }
 \usage{
-mwt(object, grp, log.it = FALSE,localfdr = TRUE)
+mwt(object, grp, log.it = FALSE, localfdr = TRUE)
 }
 \arguments{
   \item{object}{ Expression data. Either an object of class 'matrix' or 'ExpressionSet'}
@@ -37,7 +37,15 @@ A list containing
   \item{lev.FDR}{Levene's test FDR}
 }
 \references{
-  Demissie M, et al: Effects of unequal variance in microarray data analysis }
+
+  Demissie M, Mascialino B, Calza S, Pawitan Y. Unequal group variances in
+  microarray data analyses. Bioinformatics. 2008 May 1;24(9):1168-74.
+  PMID: 18344518.
+
+  Ploner A, Calza S, Gusnanto A, Pawitan Y. Multidimensional local false
+  discovery rate for microarray studies. Bioinformatics. 2006 Mar
+  1;22(5):556-65. PMID: 16368770.
+}
 \author{Pawitan Y and Calza S}
 \note{ }
 \seealso{ }
@@ -59,6 +67,25 @@ eset <- new("ExpressionSet",exprs=xdat,
               data=data.frame(GRP=grp,row.names=colnames(xdat))))
 out = mwt(eset, "GRP")  # get FDR from MWT
 plot(out$MWT, out$FDR)
+
+### Local FDR ###
+
+## Simulate data based on G.Smyth model
+require(OCplus)
+xdat = MAsim.smyth(ng=10000, p0=0.8, n1=3,n2=3)  ## using Smyth model
+dim(xdat)
+grp <- factor(colnames(xdat))
+colnames(xdat) <- paste("S",1:ncol(xdat),sep=".")
+
+# straight run
+out = mwt(xdat, grp)  # get global FDR and local fdr from MWT
+
+## local fdr behaves like fdr2d:
+stat = tstatistics(xdat, grp, logse=TRUE)
+plot(stat$tstat, stat$logse)
+pick = out$fdr<0.1
+points(stat$tstat[pick], stat$logse[pick], col='red', pch=16)
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
